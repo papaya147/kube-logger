@@ -5,17 +5,15 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/papaya147/kube-logger/util"
 	"gopkg.in/yaml.v3"
 )
 
 type Options struct {
-	ScrapeInterval time.Duration `yaml:"scrape_interval" json:"scrape_interval"`
-	Namespaces     []string      `yaml:"namespaces" json:"namespaces"`
-	Writer         string        `yaml:"writer" json:"writer"`
-	EKSOptions     *EKSOptions   `yaml:"eks" json:"eks"`
+	Namespaces []string    `yaml:"namespaces" json:"namespaces"`
+	Writer     string      `yaml:"writer" json:"writer"`
+	EKSOptions *EKSOptions `yaml:"eks" json:"eks"`
 }
 
 func NewOptions(paths ...string) (*Options, error) {
