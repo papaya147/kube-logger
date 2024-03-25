@@ -36,6 +36,10 @@ func (m *MongoWriter) Open(uri string) error {
 		return err
 	}
 
+	if err := client.Ping(context.Background(), nil); err != nil {
+		return err
+	}
+
 	m.Client = client
 	m.Collection = m.Client.Database(m.DatabaseName).Collection(m.CollectionName)
 
