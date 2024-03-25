@@ -68,7 +68,7 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 
 		logLines := strings.Split(string(buf), "\n")
 		for _, line := range logLines {
-			if len(line) > 0 && len(strings.Trim(line, "")) > 0 {
+			if len(strings.Trim(line, " ")) > 0 {
 				if err := logger.Write(pod.Namespace, pod.Pod.Name, []byte(line)); err != nil {
 					return err
 				}
