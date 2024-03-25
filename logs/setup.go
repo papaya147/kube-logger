@@ -1,6 +1,7 @@
 package logs
 
 import (
+	"context"
 	"errors"
 
 	"github.com/papaya147/kube-logger/config"
@@ -22,7 +23,7 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 		logger = config.NewConsoleWriter()
 	case "mongo":
 		logger = config.NewMongoWriter(options.MongoOptions.Database, options.MongoOptions.Collection)
-		if err := logger.Open(options.MongoOptions.ConnectionURI); err != nil {
+		if err := logger.Open(context.Background(), options.MongoOptions.ConnectionURI); err != nil {
 			return err
 		}
 	default:

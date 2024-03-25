@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/fatih/color"
@@ -13,7 +14,7 @@ func NewConsoleWriter() Writer {
 	return &ConsoleWriter{}
 }
 
-func (c *ConsoleWriter) Open(string) error {
+func (c *ConsoleWriter) Open(context.Context, string) error {
 	return nil
 }
 
@@ -56,6 +57,6 @@ func (c *ConsoleWriter) Write(namespace, pod string, data []byte) error {
 	return nil
 }
 
-func (c *ConsoleWriter) Close() error {
+func (c *ConsoleWriter) Close(context.Context) error {
 	return nil
 }

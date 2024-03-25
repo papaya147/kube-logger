@@ -28,15 +28,15 @@ func NewMongoWriter(database, collection string) Writer {
 	}
 }
 
-func (m *MongoWriter) Open(uri string) error {
+func (m *MongoWriter) Open(ctx context.Context, uri string) error {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
-	client, err := mongo.Connect(context.Background(), opts)
+	client, err := mongo.Connect(ctx, opts)
 	if err != nil {
 		return err
 	}
 
-	if err := client.Ping(context.Background(), nil); err != nil {
+	if err := client.Ping(ctx, nil); err != nil {
 		return err
 	}
 
@@ -57,6 +57,6 @@ func (m *MongoWriter) Write(namespace string, pod string, log []byte) error {
 	return err
 }
 
-func (m *MongoWriter) Close() error {
-	return m.Client.Disconnect(context.Background())
+func (m *MongoWriter) Close(ctx context.Context) error {
+	return m.Client.Disconnect(ctx)
 }

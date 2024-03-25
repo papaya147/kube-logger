@@ -1,7 +1,9 @@
 package config
 
+import "context"
+
 type Writer interface {
-	Open(string) error
+	Open(context.Context, string) error
 	Write(namespace, pod string, log []byte) error
-	Close() error
+	Close(context.Context) error
 }
