@@ -20,6 +20,11 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 	switch options.Writer {
 	case "console":
 		logger = config.NewConsoleWriter()
+	case "mongo":
+		logger = config.NewMongoWriter(options.MongoOptions.Database, options.MongoOptions.Collection)
+		if err := logger.Open(options.MongoOptions.ConnectionURI); err != nil {
+			return err
+		}
 	default:
 		return errors.New("unknown writer")
 	}

@@ -13,7 +13,7 @@ import (
 	"sigs.k8s.io/aws-iam-authenticator/pkg/token"
 )
 
-func NewEKSClientset(options *EKSOptions) (*kubernetes.Clientset, error) {
+func NewEKSClientset(options EKSOptions) (*kubernetes.Clientset, error) {
 	sess := session.Must(session.NewSession(&aws.Config{
 		Region:      aws.String(options.Region),
 		Credentials: credentials.NewStaticCredentials(options.AccessKey, options.SecretKey, ""),

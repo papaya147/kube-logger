@@ -13,11 +13,14 @@ func main() {
 	}
 
 	var clientset *kubernetes.Clientset
-	if options.EKSOptions != nil {
+	switch options.ClusterProvider {
+	case "eks":
 		clientset, err = config.NewEKSClientset(options.EKSOptions)
 		if err != nil {
 			panic(err)
 		}
+	default:
+		panic("unknown cluster provider")
 	}
 
 	if clientset == nil {

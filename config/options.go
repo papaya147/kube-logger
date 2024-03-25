@@ -11,9 +11,11 @@ import (
 )
 
 type Options struct {
-	Namespaces []string    `yaml:"namespaces" json:"namespaces"`
-	Writer     string      `yaml:"writer" json:"writer"`
-	EKSOptions *EKSOptions `yaml:"eks" json:"eks"`
+	Namespaces      []string     `yaml:"namespaces" json:"namespaces"`
+	ClusterProvider string       `yaml:"cluster_provider" json:"cluster_provider"`
+	Writer          string       `yaml:"writer" json:"writer"`
+	EKSOptions      EKSOptions   `yaml:"eks" json:"eks"`
+	MongoOptions    MongoOptions `yaml:"mongo" json:"mongo"`
 }
 
 func NewOptions(paths ...string) (*Options, error) {
