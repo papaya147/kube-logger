@@ -3,7 +3,6 @@ module github.com/papaya147/kube-logger
 go 1.22.1
 
 require (
-	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d
 	github.com/aws/aws-sdk-go v1.51.6
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/api v0.29.3
