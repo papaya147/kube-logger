@@ -1,6 +1,9 @@
 package config
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/papaya147/kube-logger/util"
 )
 
@@ -11,16 +14,20 @@ type EKSOptions struct {
 	SecretKey   string `yaml:"secret_key" json:"secret_key"`
 }
 
-func NewEKSOptions(path string) (*EKSOptions, error) {
-	content, err := util.GetFileContents(path)
-	if err != nil {
-		return nil, err
+func NewEKSOptions(paths ...string) (*EKSOptions, error) {
+	for _, path := range paths {
+		content, err := util.GetFileContents(path)
+		if err != nil {
+			continue
+		}
+
+		var options EKSOptions
+		if err := loadOptions(content, &options); err != nil {
+			continue
+		}
+
+		return &options, nil
 	}
 
-	var options EKSOptions
-	if err := loadOptions(content, &options); err != nil {
-		return nil, err
-	}
-
-	return &options, nil
+	return nil, fmt.Errorf("files %s could not be loaded as options", strings.Join(paths, ", "))
 }

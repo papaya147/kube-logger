@@ -12,7 +12,8 @@ import (
 )
 
 func main() {
-	options, err := config.NewEKSOptions("./options.yaml")
+	var err error
+	options, err := config.NewEKSOptions("./options.yaml", "./options.json")
 	if err != nil {
 		panic(err)
 	}
