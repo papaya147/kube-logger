@@ -1,4 +1,4 @@
-package writer
+package config
 
 type Writer interface {
 	Open(string) error

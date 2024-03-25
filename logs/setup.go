@@ -4,12 +4,11 @@ import (
 	"errors"
 
 	"github.com/papaya147/kube-logger/config"
-	"github.com/papaya147/kube-logger/writer"
 	"k8s.io/client-go/kubernetes"
 )
 
 var namespaces []string
-var logger writer.Writer
+var logger config.Writer
 var clientset *kubernetes.Clientset
 
 func Setup(options *config.Options, cs *kubernetes.Clientset) error {
@@ -20,7 +19,7 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 
 	switch options.Writer {
 	case "console":
-		logger = writer.NewConsoleWriter()
+		logger = config.NewConsoleWriter()
 	default:
 		return errors.New("unknown writer")
 	}
