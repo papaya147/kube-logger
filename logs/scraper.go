@@ -62,11 +62,13 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 			return err
 		}
 
-		if len(buf) == 0 {
+		n := bytes.IndexByte(buf[:], 0)
+
+		if n == 0 {
 			continue
 		}
 
-		if err := write(pod.Namespace, pod.Pod.Name, buf[:bytes.IndexByte(buf[:], 0)]); err != nil {
+		if err := write(pod.Namespace, pod.Pod.Name, buf[:n]); err != nil {
 			return err
 		}
 
