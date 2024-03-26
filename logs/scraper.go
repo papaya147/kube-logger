@@ -1,8 +1,8 @@
 package logs
 
 import (
+	"bytes"
 	"context"
-	"strings"
 	"time"
 
 	corev1 "k8s.io/api/core/v1"
@@ -55,7 +55,7 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 	}
 	defer readCloser.Close()
 
-	buf := make([]byte, 1024)
+	buf := make([]byte, 10240)
 	for {
 		_, err = readCloser.Read(buf)
 		if err != nil {
@@ -66,15 +66,12 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 			continue
 		}
 
-		logLines := strings.Split(string(buf), "\n")
-		for _, line := range logLines {
-			if len(strings.Trim(line, " ")) > 0 {
-				if err := logger.Write(pod.Namespace, pod.Pod.Name, []byte(line)); err != nil {
-					return err
-				}
-			}
+		n := bytes.IndexByte(buf[:], 0)
+
+		if err := logger.Write(pod.Namespace, pod.Pod.Name, buf[:n]); err != nil {
+			return err
 		}
 
-		buf = make([]byte, 1024)
+		buf = make([]byte, 10240)
 	}
 }

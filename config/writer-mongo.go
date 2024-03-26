@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"regexp"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,7 +11,7 @@ import (
 type LogEntry struct {
 	Namespace string `bson:"namespace"`
 	Pod       string `bson:"pod"`
-	Log       []byte `bson:"log"`
+	Log       string `bson:"log"`
 }
 
 type MongoWriter struct {
@@ -46,11 +47,16 @@ func (m *MongoWriter) Open(ctx context.Context, uri string) error {
 	return nil
 }
 
+var escapePattern = "\x1b[^m]*m"
+var escapeRegex = regexp.MustCompile(escapePattern)
+
 func (m *MongoWriter) Write(namespace string, pod string, log []byte) error {
+	logWithoutEscape := escapeRegex.ReplaceAllString(string(log), "")
+
 	entry := LogEntry{
 		Namespace: namespace,
 		Pod:       pod,
-		Log:       log,
+		Log:       logWithoutEscape,
 	}
 
 	_, err := m.Collection.InsertOne(context.Background(), entry)
