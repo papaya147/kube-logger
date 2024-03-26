@@ -45,7 +45,7 @@ func (m *MongoWriter) Write(namespace string, pod string, log []byte) error {
 	logWithoutEscape := escapeRegex.ReplaceAllString(string(log), "")
 
 	entry := LogEntry{
-		Timestamp: time.Now().UnixNano(),
+		Nanos:     time.Now().UnixNano(),
 		Namespace: namespace,
 		Pod:       pod,
 		Log:       logWithoutEscape,

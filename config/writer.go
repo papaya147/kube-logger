@@ -6,7 +6,7 @@ import (
 )
 
 type LogEntry struct {
-	Timestamp int64  `bson:"timestamp"`
+	Nanos     int64  `bson:"nanos"`
 	Namespace string `bson:"namespace"`
 	Pod       string `bson:"pod"`
 	Log       string `bson:"log"`
