@@ -9,7 +9,7 @@ import (
 )
 
 var namespaces []string
-var logger config.Writer
+var loggers []config.Writer
 var clientset *kubernetes.Clientset
 
 func Setup(options *config.Options, cs *kubernetes.Clientset) error {
@@ -18,19 +18,27 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 	}
 	namespaces = options.Namespaces
 
-	switch options.Writer {
-	case "console":
-		logger = config.NewConsoleWriter()
-	case "mongo":
-		logger = config.NewMongoWriter(options.MongoOptions.Database, options.MongoOptions.Collection)
+	if options.Console {
+		loggers = append(loggers, config.NewConsoleWriter())
+	}
+	if options.MongoOptions != nil {
+		logger := config.NewMongoWriter(options.MongoOptions.Database, options.MongoOptions.Collection)
 		if err := logger.Open(context.Background(), options.MongoOptions.ConnectionURI); err != nil {
 			return err
 		}
-	default:
-		return errors.New("unknown writer")
+		loggers = append(loggers, logger)
 	}
 
 	clientset = cs
 
+	return nil
+}
+
+func write(namespace, pod string, data []byte) error {
+	for _, logger := range loggers {
+		if err := logger.Write(namespace, pod, data); err != nil {
+			return err
+		}
+	}
 	return nil
 }

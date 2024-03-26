@@ -68,7 +68,7 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 
 		n := bytes.IndexByte(buf[:], 0)
 
-		if err := logger.Write(pod.Namespace, pod.Pod.Name, buf[:n]); err != nil {
+		if err := write(pod.Namespace, pod.Pod.Name, buf[:n]); err != nil {
 			return err
 		}
 
