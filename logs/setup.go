@@ -18,10 +18,11 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 	}
 	namespaces = options.Namespaces
 
-	if options.Console {
+	if options.ConsoleOptions != nil && options.ConsoleOptions.Active {
 		loggers = append(loggers, config.NewConsoleWriter())
 	}
-	if options.MongoOptions != nil {
+
+	if options.MongoOptions != nil && options.MongoOptions.Active {
 		logger := config.NewMongoWriter(options.MongoOptions.Database, options.MongoOptions.Collection)
 		if err := logger.Open(context.Background(), options.MongoOptions.ConnectionURI); err != nil {
 			return err
