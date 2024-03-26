@@ -30,6 +30,19 @@ func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 		loggers = append(loggers, logger)
 	}
 
+	if options.ElasticsearchOptions != nil && options.ElasticsearchOptions.Active {
+		logger := config.NewElasticsearchWriter(
+			options.ElasticsearchOptions.Host,
+			options.ElasticsearchOptions.Username,
+			options.ElasticsearchOptions.Password,
+			options.ElasticsearchOptions.Index,
+		)
+		if err := logger.Open(context.Background(), ""); err != nil {
+			return err
+		}
+		loggers = append(loggers, logger)
+	}
+
 	clientset = cs
 
 	return nil
