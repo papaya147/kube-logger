@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	options, err := config.NewOptions("./options.yaml", "./options.json")
+	options, err := config.NewOptions("./kube-logger.yaml", "./kube-logger.json")
 	if err != nil {
 		panic(err)
 	}
