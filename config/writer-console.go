@@ -47,7 +47,7 @@ func (c *ConsoleWriter) Write(namespace, pod string, data []byte) error {
 	}
 
 	color.Set(ColorMap[namespace+pod])
-	fmt.Printf("%s: %s ", namespace, pod)
+	fmt.Printf("%s: %s\n", namespace, pod)
 	color.Unset()
 
 	color.Set(color.FgWhite)

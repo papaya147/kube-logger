@@ -9,18 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type NamespacedPod struct {
-	Pod       corev1.Pod
-	Namespace string
-}
-
-var pods []NamespacedPod
-
 func Scrape() error {
-	if err := loadClusterPods(); err != nil {
-		return err
-	}
-
 	for _, pod := range pods {
 		go scrape(context.Background(), pod)
 	}
@@ -31,21 +20,8 @@ func Scrape() error {
 	return nil
 }
 
-func loadClusterPods() error {
-	for _, namespace := range namespaces {
-		namespacePods, err := clientset.CoreV1().Pods(namespace).List(context.Background(), metav1.ListOptions{})
-		if err != nil {
-			return err
-		}
-		for _, pod := range namespacePods.Items {
-			pods = append(pods, NamespacedPod{Pod: pod, Namespace: namespace})
-		}
-	}
-	return nil
-}
-
 func scrape(ctx context.Context, pod NamespacedPod) error {
-	req := clientset.CoreV1().Pods(pod.Namespace).GetLogs(pod.Pod.Name, &corev1.PodLogOptions{
+	req := clientset.CoreV1().Pods(pod.Namespace).GetLogs(pod.Name, &corev1.PodLogOptions{
 		SinceTime: &metav1.Time{Time: time.Now()},
 		Follow:    true,
 	})
@@ -68,7 +44,7 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 			continue
 		}
 
-		if err := write(pod.Namespace, pod.Pod.Name, buf[:n]); err != nil {
+		if err := write(pod.Namespace, pod.Name, buf[:n]); err != nil {
 			return err
 		}
 

@@ -12,6 +12,7 @@ import (
 
 type Options struct {
 	Namespaces           []string              `yaml:"namespaces" json:"namespaces"`
+	PodPrefixes          []string              `yaml:"pod_prefixes" json:"pod_prefixes"`
 	ClusterProvider      string                `yaml:"cluster_provider" json:"cluster_provider"`
 	EKSOptions           EKSOptions            `yaml:"eks" json:"eks"`
 	MongoOptions         *MongoOptions         `yaml:"mongo" json:"mongo"`
