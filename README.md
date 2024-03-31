@@ -2,6 +2,6 @@
 
 A Go log client for Kubernetes clusters
 
-# Supported Providers
+## Supported Providers
 
-# Supported Log Sinks
+## Supported Log Sinks
