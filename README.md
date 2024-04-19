@@ -5,6 +5,12 @@ A Go log client for Kubernetes clusters. Supported config file names by preferen
 - `kube-logger.yaml`
 - `kube-logger.json`
 
+### Getting started
+
+- Run `go build github.com/papaya147/kube-logger`
+- Set up a configuration file
+- Run `./kube-logger` (move to a Docker image to ease deployment)
+
 ### Configuration File Format
 
 | Property                 | Description                                                        | Type       | Mandatory                           | Default Value | Accepted Values |
