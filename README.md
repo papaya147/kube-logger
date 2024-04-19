@@ -31,28 +31,28 @@ A Go log client for Kubernetes clusters. Supported config file names by preferen
 
 ```yaml
 namespaces:
-	- default
+  - default
 pod_prefixes:
-	- auth
+  - auth
 cluster_provider: eks
 eks:
-	cluster_name: backend-prod
-	region: ap-south-1
-	access_key: <AWS-ACCESS-KEY>
-	secret_key: <AWS-SECRET-KEY>
+  cluster_name: backend-prod
+  region: ap-south-1
+  access_key: <AWS-ACCESS-KEY>
+  secret_key: <AWS-SECRET-KEY>
 console:
-	active: true
+  active: true
 mongo:
-	active: true
-	connection_uri: mongodb://localhost:27017
-	database: logs
-	collection: logs
+  active: true
+  connection_uri: mongodb://localhost:27017
+  database: logs
+  collection: logs
 elasticsearch:
-	active: true
-	host: http://localhost:9200
-	username: elastic
-	password: elastic
-	index: logs
+  active: true
+  host: http://localhost:9200
+  username: elastic
+  password: elastic
+  index: logs
 ```
 
 ### Supported Providers
