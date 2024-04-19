@@ -29,7 +29,7 @@ A Go log client for Kubernetes clusters. Supported config file names by preferen
 
 #### Example
 
-```
+```yaml
 namespaces:
 	- default
 pod_prefixes:
