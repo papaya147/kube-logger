@@ -2,7 +2,6 @@ package logs
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -24,7 +23,7 @@ var pods []NamespacedPod
 
 func Setup(options *config.Options, cs *kubernetes.Clientset) error {
 	if len(options.Namespaces) == 0 {
-		return errors.New("namespaces cannot be empty")
+		options.Namespaces = []string{"default"}
 	}
 	namespaces = options.Namespaces
 
