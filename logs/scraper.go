@@ -40,7 +40,7 @@ func scrape(ctx context.Context, pod NamespacedPod) error {
 
 		n := bytes.IndexByte(buf[:], 0)
 
-		if n == 0 {
+		if n <= 0 {
 			continue
 		}
 
